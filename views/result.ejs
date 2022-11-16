@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VideoBook</title>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/bootstrap-social.css">
+    <style>
+        body{
+            margin-top:50px;
+            margin-bottom:100px;
+            margin-left:20px;
+            
+            /* max-width: 650px; */
+            background-color: #E8ECEF;
+        }
+    </style>
+</head>
+<body onload="setvid()">
+
+
+    <div class="container ml-1">
+        <div class="row">
+            <div class="col-md-2 bg-light">
+                <div class="d-flex flex-column flex-shrink-0 p-3">
+                
+                        <h4 class="mb-auto d-flex align-items-center justify-content-center">Menu</h4>
+                    
+                    <hr>
+                    <ul class="nav nav-pills flex-column mb-auto">
+                      <li class="nav-item">
+                        <a class="nav-link" aria-current="page">
+                          
+                          <form action="/redirect" method="post">
+                            <button type="submit" class="btn btn-secondary"> Home </button>
+                          </form>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" aria-current="page">
+                        <form action="/logout" method="get">
+                            <button type="submit" class="btn btn-danger"> Logout </button>
+                        </form>
+                        </a>
+                        <!-- <a class="btn btn-secondary" href="/logout" role="button">Logout</a> -->
+                      </li>                      
+                    </ul>
+                  </div>
+
+                </div>
+            <div class="col-md-10">
+                <div class="container mb-4">
+                    <div class="form-group justify-content-center mb-3 row">
+                        
+                            <div class="col-md-8">
+                                <div class="search">
+                                    <form action="/through" method="post">
+                                        <input type="text" name="searched" class="form-control" placeholder="Search">
+                                    </form>
+                                </div>
+                            </div>
+                    </div>   
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-auto">
+                            <video id="videoplayer0" onclick="this.play();" poster="<%=thumbnail1%>" type="video/mp4" controls muted="muted" >
+                        </div>
+                        
+                        <div class="col">
+                            <div class="container-fluid"><%=videoname0%> </div>
+                            <div class="container-fluid"><%=channelname0%> </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-auto">
+                            <video id="videoplayer1" onclick="this.play();" poster="<%=thumbnail2%>" type="video/mp4" controls muted="muted" >
+                        </div>
+                        
+                        <div class="col">
+                            <div class="container-fluid"> <%=videoname1%> </div>
+                            <div class="container-fluid"><%=channelname1%></div>
+                        </div>
+                    </div>
+                </div>                <div class="container">
+                    <div class="row">
+                        <div class="col-md-auto">
+                            <video id="videoplayer2" onclick="this.play();" poster="<%=thumbnail3%>" type="video/mp4" controls muted="muted" >
+                        </div>
+                        
+                        <div class="col">
+                            <div class="container-fluid"><%=videoname2%></div>
+                            <div class="container-fluid"><%=channelname2%></div>
+                        </div>
+                    </div>
+                </div>                <div class="container">
+                    <div class="row">
+                        <div class="col-md-auto">
+                            <video id="videoplayer3" onclick="this.play();" poster="<%=thumbnail4%>" type="video/mp4" controls muted="muted" >
+                        </div>
+                        
+                        <div class="col">
+                            <div class="container-fluid"><%=videoname3%></div>
+                            <div class="container-fluid"><%=channelname3%></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script>
+        function setvid() {
+            for (let i = 0; i < 4; i++) {
+                var player="videoplayer"+i;
+                var videot =document.getElementById(player);
+                // videot.src = 'http://videobook-app.herokuapp.com/video'+i;
+                videot.src = '/video'+i;
+                // videot.src = 'http://localhost:3000/video'+i;
+                videot.load();
+                videot.onloadstart=()=>{
+                    videot.addEventListener('loadeddata', (e) => {
+                    //Video should now be loaded but we can add a second check
+
+                    if(videoElement.readyState === 4){
+                        //your code goes here
+                        return;
+                    }
+
+                    });
+                };
+            }
+            
+            
+        }
+    </script>
+    
+</body>
+</html>

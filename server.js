@@ -354,8 +354,8 @@ app.post("/redirect", (req, res) => {
 
 app.get("/video0", async (req, res) => {
   console.log("inside video ", idx);
-  if(id="")
-  res.redirect("/search");
+  // if(id="")
+  // res.redirect("/search");
   async function geturl() {
     const foundUrl = await Url.findById(id);
     console.log("found is", idx, foundUrl.videourl[0]);
@@ -429,8 +429,8 @@ app.get("/video0", async (req, res) => {
 
 app.get("/video1", async (req, res) => {
   console.log("inside video ", idx);
-  if(id="")
-  res.redirect("/search");
+  // if(id="")
+  // res.redirect("/search");
   async function geturl() {
     const foundUrl = await Url.findById(id);
     console.log("found is", idx, foundUrl.videourl[1]);
@@ -489,8 +489,8 @@ app.get("/video1", async (req, res) => {
 });
 app.get("/video2", async (req, res) => {
   console.log("inside video ", idx);
-  if(id="")
-  res.redirect("/search");
+  // if(id="")
+  // res.redirect("/search");
   async function geturl() {
     const foundUrl = await Url.findById(id);
     console.log("found is", idx, foundUrl.videourl[2]);
@@ -549,8 +549,8 @@ app.get("/video2", async (req, res) => {
 });
 app.get("/video3", async (req, res) => {
   console.log("inside video ", idx);
-  if(id="")
-  res.redirect("/search");
+  // if(id="")
+  // res.redirect("/search");
   async function geturl() {
     const foundUrl = await Url.findById(id);
     console.log("found is", idx, foundUrl.videourl[3]);

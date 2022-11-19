@@ -3,7 +3,7 @@ const request = require("request");
 const express = require("express");
 const bodyParser = require("body-parser");
 const fs = require("fs");
-// const nocache = require("nocache");
+const axios = require("axios");
 const ejs = require("ejs");
 const mongoose = require("mongoose");
 const session = require("express-session");
@@ -11,7 +11,7 @@ const passport = require("passport");
 const passportLocalMongoose = require("passport-local-mongoose");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const findOrCreate = require("mongoose-findorcreate");
-// const got=require("got");
+
 
 const port = 3000;
 
@@ -32,12 +32,12 @@ var videoids = [];
 var videourls = [];
 var id;
 var idx = 0;
-var thumbnail1;
-var thumbnail2;
-var thumbnail3;
-var thumbnail4;
+var descriptions=[];
+var thumbnails=[];
 var videoname = [];
 var channelname = [];
+var srch_thumbnails=[];
+var srch_title=[];
 app.use(
   session({
     secret: "Our little secret.",
@@ -87,8 +87,8 @@ passport.use(
     {
       clientID: process.env.CLIENT_ID,
       clientSecret: process.env.CLIENT_SECRET,
-      callbackURL: "https://videobook-app.herokuapp.com/auth/google/videobook",
-      // callbackURL: "http://localhost:3000/auth/google/videobook",
+      // callbackURL: "https://videobook-app.herokuapp.com/auth/google/videobook",
+      callbackURL: "http://localhost:3000/auth/google/videobook",
       userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
     },
     function (accessToken, refreshToken, profile, cb) {
@@ -142,10 +142,10 @@ app.get("/results", (req, res) => {
   // res.sendFile(__dirname + "/result.html");
 
   res.render("result", {
-    thumbnail1: thumbnail1,
-    thumbnail2: thumbnail2,
-    thumbnail3: thumbnail3,
-    thumbnail4: thumbnail4,
+    thumbnail1: thumbnails[0],
+    thumbnail2: thumbnails[1],
+    thumbnail3: thumbnails[2],
+    thumbnail4: thumbnails[3],
     videoname0: videoname[0],
     videoname1: videoname[1],
     videoname2: videoname[2],
@@ -154,20 +154,58 @@ app.get("/results", (req, res) => {
     channelname1: channelname[1],
     channelname2: channelname[2],
     channelname3: channelname[3],
+    description0:descriptions[0],
+    description1:descriptions[1],
+    description2:descriptions[2],
+    description3:descriptions[3]
   });
 });
 
-app.get("/search", function (req, res) {
-  // User.find({"secret": {$ne: null}}, function(err, foundUsers){
-  //   if (err){
-  //     console.log(err);
-  //   } else {
-  //     if (foundUsers) {
-  //       res.render("secrets", {usersWithSecrets: foundUsers});
-  //     }
-  //   }
-  // });
-  res.sendFile(__dirname + "/search.html");
+app.get("/search",async function (req, res) {
+  if(Object.keys(req.query).length === 0)
+  var cat_type='movies';
+  else
+  var cat_type=req.query.btn_category;
+  
+  srch_thumbnails=[];
+  srch_title=[];
+const options = {
+  method: 'GET',
+  url: 'https://yt-api.p.rapidapi.com/trending',
+  params: {geo: 'US', type: cat_type},
+  headers: {
+    'X-RapidAPI-Key': 'bdba7736c9mshdcee368220f321bp19a210jsn47c5d4112f40',
+    'X-RapidAPI-Host': 'yt-api.p.rapidapi.com'
+  }
+};
+  
+  var status =await axios.request(options).then(function (response) {
+    // console.log(response.data);
+    var bodyobj=response.data;
+    for (let i = 0; i < 6; i++) {
+      srch_thumbnails.push(bodyobj.data[i].thumbnail[0].url);
+      srch_title.push(bodyobj.data[i].title);
+      console.log("videoisd are ",bodyobj.data[i].title);
+      console.log("i is  ",i);
+      
+    }
+    return true;
+  }).catch(function (error) {
+    console.error(error);
+  });
+
+
+  
+  console.log("srch length ",srch_title.length)
+  if(status)
+  res.render("search",{
+    srch_thumbnail0:srch_thumbnails[0], srch_title0:srch_title[0],
+    srch_thumbnail1:srch_thumbnails[1], srch_title1:srch_title[1],
+    srch_thumbnail2:srch_thumbnails[2], srch_title2:srch_title[2],
+    srch_thumbnail3:srch_thumbnails[3], srch_title3:srch_title[3],
+    srch_thumbnail4:srch_thumbnails[4], srch_title4:srch_title[4],
+    srch_thumbnail5:srch_thumbnails[5], srch_title5:srch_title[5],
+  });
 });
 
 app.post("/through",(req,res)=>{
@@ -182,7 +220,10 @@ app.post("/submit", async (req, res) => {
   id="";
   videoids=[];
   var searchquery = req.body.searched;
-  console.log(searchquery);
+  console.log("searchquesy is",searchquery);
+  console.log(req.body);
+  descriptions=[];
+  thumbnails=[];
   videoname = [];
   channelname = [];
   //Once the user is authenticated and their session gets saved, their user details are saved to req.user.
@@ -213,37 +254,56 @@ app.post("/submit", async (req, res) => {
           var bodyobj = JSON.parse(body);
           console.log(typeof bodyobj);
           console.log(bodyobj.data[0].videoId);
+          var numOfVideos = 4;
+          for (let i = 0; i < numOfVideos; i++)
+           {
+            // var videoid="video"+(i+1);
+            if(bodyobj.data[i].type=="channel")
+              var videoid='g8K21P8CoeI';
+            else
+              var videoid=bodyobj.data[i].videoId;
+            
+            thumbnails.push(bodyobj.data[i].thumbnail[0].url);
+            descriptions.push(bodyobj.data[i].description);
+            videoids.push(videoid);
+            }
 
-          if(bodyobj.data[0].type=="channel")
-            var videoid1='g8K21P8CoeI';
-          else
-            var videoid1=bodyobj.data[0].videoId;
+          // if(bodyobj.data[0].type=="channel")
+          //   var videoid1='g8K21P8CoeI';
+          // else{
+          //   var videoid1=bodyobj.data[0].videoId;
+          //   des1=bodyobj.data[0].description;
+          // }
 
-          if(bodyobj.data[1].type=="channel")
-            var videoid2='g8K21P8CoeI';
-          else
-            var videoid2 = bodyobj.data[1].videoId;
+          // if(bodyobj.data[1].type=="channel")
+          //   var videoid2='g8K21P8CoeI';
+          // else{
+          //   var videoid2 = bodyobj.data[1].videoId;
+          //   des1=bodyobj.data[0].description;
+          // }
 
-          if(bodyobj.data[2].type=="channel")
-            var videoid3='g8K21P8CoeI';
-          else
-            var videoid3 = bodyobj.data[2].videoId;
+          // if(bodyobj.data[2].type=="channel")
+          //   var videoid3='g8K21P8CoeI';
+          // else{
+          //   var videoid3 = bodyobj.data[2].videoId;
+          //   des1=bodyobj.data[0].description;
+          // }
 
-          if(bodyobj.data[3].type=="channel")
-            var videoid4='g8K21P8CoeI';
-          else
-            var videoid4 = bodyobj.data[3].videoId;
+          // if(bodyobj.data[3].type=="channel")
+          //   var videoid4='g8K21P8CoeI';
+          // else
+          //   var videoid4 = bodyobj.data[3].videoId;
           
           
           
-          videoids.push(videoid1);
-          videoids.push(videoid2);
-          videoids.push(videoid3);
-          videoids.push(videoid4);
-          thumbnail1 = bodyobj.data[0].thumbnail[0].url;
-          thumbnail2 = bodyobj.data[1].thumbnail[0].url;
-          thumbnail3 = bodyobj.data[2].thumbnail[0].url;
-          thumbnail4 = bodyobj.data[3].thumbnail[0].url;
+          // videoids.push(videoid1);
+          // videoids.push(videoid2);
+          // videoids.push(videoid3);
+          // videoids.push(videoid4);
+          // thumbnail1 = bodyobj.data[0].thumbnail[0].url;
+          // thumbnail2 = bodyobj.data[1].thumbnail[0].url;
+          // thumbnail3 = bodyobj.data[2].thumbnail[0].url;
+          // thumbnail4 = bodyobj.data[3].thumbnail[0].url;
           for (let i = 0; i < 4; i++) {
             videoname.push(bodyobj.data[i].title);
           }

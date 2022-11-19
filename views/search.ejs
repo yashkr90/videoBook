@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>VideoBook</title>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+    integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+    integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous" />
+  <link rel="stylesheet" href="css/bootstrap-social.css" />
+  <link rel="stylesheet" href="css/search.css" />
+</head>
+
+<body>
+  <div class="container">
+
+    <div class="row height d-flex justify-content-center align-items-center">
+      <h1>VideoBook</h1>
+      <div class="col-md-6">
+        <div class="form">
+          <form action="/submit" method="POST">
+            <i class="fa fa-search"></i>
+            <input type="text" name="searched" class="form-control form-input" placeholder="Search anything..." />
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="container justify-content-center align-items-center" style="text-align:center">
+        <h4>Search and Watch your favourite content without any hindrance</h4>
+        <hr />
+      </div>
+
+    </div>
+
+
+
+    <div class="container">
+      <h5 class="topvdos">Top videos</h5>
+    </div>
+    <div class="container cat_btns_container">
+      <div class="container row">
+        <form action="/search" method="get">
+          <button type="submit" class="btn-outline-dark btn" value="now" name="btn_category">
+            Trending
+          </button>
+        </form>
+        <form action="/search" method="get">
+          <button type="submit" class="btn-outline-dark btn" value="movies" name="btn_category">
+            Movies
+          </button>
+        </form>
+        <form action="/search" method="get">
+          <button type="submit" class="btn-outline-dark btn" value="music" name="btn_category">
+            Music
+          </button>
+        </form>
+        <form action="/search" method="get">
+          <button type="submit" class="btn-outline-dark btn" value="games" name="btn_category">
+            Games
+          </button>
+        </form>
+      </div>
+    </div>
+    <div class="container images_container mt-4">
+      
+      <div class="container row">
+        <form action="/submit" method="POST">
+          <div class="container img">
+            <input type="hidden" value="<%=srch_title0%>" name="searched">
+            <input type="image" class="imge" src="<%=srch_thumbnail0%>">
+          </div>
+        </form>
+        <form action="/submit" method="POST">
+          <div class="container img">
+            <input type="hidden" value="<%=srch_title1%>" name="searched">
+            <input type="image" class="imge" src="<%=srch_thumbnail1%>">
+          </div>
+        </form>
+        <form action="/submit" method="POST">
+          <div class="container img">
+            <input type="hidden" value="<%=srch_title2%>" name="searched">
+            <input type="image" class="imge" src="<%=srch_thumbnail2%>">
+          </div>
+        </form>
+      </div>
+      <div class="container row">
+        <form action="/submit" method="POST">
+          <div class="container img">
+            <input type="hidden" value="<%=srch_title3%>" name="searched">
+            <input type="image" class="imge" src="<%=srch_thumbnail3%>">
+          </div>
+        </form>
+        <form action="/submit" method="POST">
+          <div class="container img">
+            <input type="hidden" value="<%=srch_title4%>" name="searched">
+            <input type="image" class="imge" src="<%=srch_thumbnail4%>">
+          </div>
+        </form>
+        <form action="/submit" method="POST">
+          <div class="container img">
+            <input type="hidden" value="<%=srch_title5%>" name="searched">
+            <input type="image" class="imge" src="<%=srch_thumbnail5%>">
+          </div>
+        </form>
+      </div>
+
+    </div>
+    <div class="container justify-content-center align-items-center mb-2">
+      <div style="text-align:center">
+
+        <a class=" btn-danger btn-m" href="/logout" role="button">Log Out</a>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>

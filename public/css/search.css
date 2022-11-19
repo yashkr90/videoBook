@@ -1,5 +1,6 @@
 body {
   background: #d1d5db;
+  margin-top: -5%;
 }
 h1 {
   margin: 2rem;
@@ -47,4 +48,41 @@ h1 {
 .form-input:focus {
   box-shadow: none;
   border: none;
+}
+.images_container{
+  display: inline-block;
+  justify-content: center;
+  text-align: center;
+}
+.img{
+  display: inline;
+}
+.topvdos{
+  text-indent: 20px;
+}
+.imge{
+
+  display: inline;
+  border-radius: 15px;
+    margin: 5px;
+    height:180px;
+    width:300px;
+    transition: 0.4s;
+}
+.imge:hover{
+  /* transition: 0.3s;
+  box-shadow: 0 4px 12px 0 rgb(67, 67, 67); */
+    transition: 0.4s;
+    height:185.4px;
+    width:309px;
+    border-radius: 15px;
+}
+
+.cat_btns_container{
+  text-indent: 20px;
+}
+.btn_cat{
+  color: black;
+  font-weight: 450;
+  border-radius: 50px;
 }
